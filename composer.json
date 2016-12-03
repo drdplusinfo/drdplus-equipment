@@ -1,0 +1,25 @@
+{
+  "name": "drd-plus/equipment",
+  "license": "MIT",
+  "type": "project",
+  "description": "Belongings for Drd+",
+  "autoload": {
+    "psr-4": {
+      "DrdPlus\\": "DrdPlus/"
+    }
+  },
+  "require": {
+    "php": ">=5.5.0",
+    "roave/security-advisories": "dev-master",
+    "doctrine/orm": "*",
+    "granam/strict-object": "dev-master",
+    "doctrineum/entity": "dev-master",
+    "doctrineum/string": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "dev-master",
+    "mockery/mockery": "dev-master"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
