@@ -3,12 +3,11 @@ namespace DrdPlus\Tests\Equipment;
 
 use DrdPlus\Equipment\Belongings;
 use DrdPlus\Equipment\Item;
-use DrdPlus\Equipment\Partials\WithItems;
 use DrdPlus\Properties\Body\WeightInKg;
-use DrdPlus\Tests\Equipment\Partials\WithItemsTest;
 use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
+use Granam\Tests\Tools\TestWithMockery;
 
-class BelongingsTest extends WithItemsTest
+class BelongingsTest extends TestWithMockery
 {
     use WithWeightTest;
 
@@ -44,10 +43,10 @@ class BelongingsTest extends WithItemsTest
     private function createItem(Belongings $expectedBelongings, $alreadyPairedWith, $weightValue = null)
     {
         $item = $this->mockery(Item::class);
-        $item->shouldReceive('getContainerWithThisItem')
-            ->andReturn($alreadyPairedWith ? $expectedBelongings : $this->mockery(WithItems::class));
+        $item->shouldReceive('getBelongings')
+            ->andReturn($alreadyPairedWith ? $expectedBelongings : $this->mockery(Belongings::class));
         if (!$alreadyPairedWith) {
-            $item->shouldReceive('setContainer')
+            $item->shouldReceive('setBelongings')
                 ->with($expectedBelongings);
         }
         if ($weightValue !== null) {

@@ -1,8 +1,8 @@
 <?php
 namespace DrdPlus\Tests\Equipment;
 
+use DrdPlus\Equipment\Belongings;
 use DrdPlus\Equipment\Item;
-use DrdPlus\Equipment\Partials\WithItems;
 use DrdPlus\Properties\Body\WeightInKg;
 use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
 use Granam\Tests\Tools\TestWithMockery;
@@ -21,7 +21,7 @@ class ItemTest extends TestWithMockery
         self::assertSame('foo', $item->getName());
         self::assertSame('foo', (string)$item);
         self::assertSame($weightInKg, $item->getWeightInKg());
-        self::assertNull($item->getContainerWithThisItem());
+        self::assertNull($item->getBelongings());
     }
 
     /**
@@ -30,14 +30,14 @@ class ItemTest extends TestWithMockery
     public function I_can_set_and_change_container()
     {
         $item = new Item('foo', $this->createWeightInKg());
-        self::assertNull($item->getContainerWithThisItem());
-        $item->setContainer($containerWithItems = $this->createContainerWithItems());
-        self::assertSame($containerWithItems, $item->getContainerWithThisItem());
-        $item->setContainer($containerWithItems = $this->createContainerWithItems());
-        self::assertSame($containerWithItems, $item->getContainerWithThisItem());
-        $item->setContainer($anotherContainerWithItems = $this->createContainerWithItems());
-        self::assertNotSame($containerWithItems, $item->getContainerWithThisItem());
-        self::assertSame($anotherContainerWithItems, $item->getContainerWithThisItem());
+        self::assertNull($item->getBelongings());
+        $item->setBelongings($belongings = $this->createBelongings());
+        self::assertSame($belongings, $item->getBelongings());
+        $item->setBelongings($belongings = $this->createBelongings());
+        self::assertSame($belongings, $item->getBelongings());
+        $item->setBelongings($anotherBelongings = $this->createBelongings());
+        self::assertNotSame($belongings, $item->getBelongings());
+        self::assertSame($anotherBelongings, $item->getBelongings());
     }
 
     /**
@@ -56,23 +56,23 @@ class ItemTest extends TestWithMockery
         $item = new Item(
             'foo',
             $weightInKg = $this->createWeightInKg(),
-            $containerWithItems = $this->createContainerWithItems()
+            $belongings = $this->createBelongings()
         );
         self::assertNull($item->getId());
         self::assertSame('foo', $item->getName());
         self::assertSame('foo', (string)$item);
         self::assertSame($weightInKg, $item->getWeightInKg());
-        self::assertSame($containerWithItems, $item->getContainerWithThisItem());
-        $item->setContainer($containerWithItems);
-        self::assertSame($containerWithItems, $item->getContainerWithThisItem());
+        self::assertSame($belongings, $item->getBelongings());
+        $item->setBelongings($belongings);
+        self::assertSame($belongings, $item->getBelongings());
     }
 
     /**
-     * @return \Mockery\MockInterface|WithItems
+     * @return \Mockery\MockInterface|Belongings
      */
-    private function createContainerWithItems()
+    private function createBelongings()
     {
-        $withItems = $this->mockery(WithItems::class);
+        $withItems = $this->mockery(Belongings::class);
         $withItems->shouldReceive('addItem')
             ->with(\Mockery::type(Item::class));
 

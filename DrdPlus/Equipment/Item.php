@@ -2,7 +2,6 @@
 namespace DrdPlus\Equipment;
 
 use Doctrineum\Entity\Entity;
-use DrdPlus\Equipment\Partials\WithItems;
 use DrdPlus\Equipment\Partials\WithWeight;
 use DrdPlus\Properties\Body\WeightInKg;
 use Granam\Scalar\Tools\ToString;
@@ -34,20 +33,20 @@ class Item extends StrictObject implements Entity, WithWeight
     private $weightInKg;
 
     /**
-     * @var WithItems
-     * @ORM\ManyToOne(targetEntity="\DrdPlus\Equipment\Partials\WithItems",inversedBy="items")
+     * @var Belongings
+     * @ORM\ManyToOne(targetEntity="\DrdPlus\Equipment\Belongings",inversedBy="items")
      */
-    private $containerWithThisItem;
+    private $belongings;
 
     /**
      * @param string|StringInterface $name
      * @param WeightInKg $weightInKg
-     * @param WithItems|null $containerWithItems
+     * @param Belongings|null $containerWithItems
      * @throws \Granam\Scalar\Tools\Exceptions\WrongParameterType
      * @throws \DrdPlus\Equipment\Exceptions\ItemNameCanNotBeEmpty
      * @throws \DrdPlus\Equipment\Exceptions\ItemNameIsTooLong
      */
-    public function __construct($name, WeightInKg $weightInKg, WithItems $containerWithItems = null)
+    public function __construct($name, WeightInKg $weightInKg, Belongings $containerWithItems = null)
     {
         $name = trim(ToString::toString($name));
         if ($name === '') {
@@ -64,7 +63,7 @@ class Item extends StrictObject implements Entity, WithWeight
         $this->weightInKg = $weightInKg;
         if ($containerWithItems) {
             $containerWithItems->addItem($this);
-            $this->containerWithThisItem = $containerWithItems;
+            $this->belongings = $containerWithItems;
         }
     }
 
@@ -101,20 +100,20 @@ class Item extends StrictObject implements Entity, WithWeight
     }
 
     /**
-     * @return WithItems|null
+     * @return Belongings|null
      */
-    public function getContainerWithThisItem()
+    public function getBelongings()
     {
-        return $this->containerWithThisItem;
+        return $this->belongings;
     }
 
     /**
-     * @param WithItems $containerWithThisItem
+     * @param Belongings $belongings
      */
-    public function setContainer(WithItems $containerWithThisItem)
+    public function setBelongings(Belongings $belongings)
     {
-        if ($this->containerWithThisItem !== $containerWithThisItem) {
-            $this->containerWithThisItem = $containerWithThisItem;
+        if ($this->belongings !== $belongings) {
+            $this->belongings = $belongings;
         }
     }
 }
