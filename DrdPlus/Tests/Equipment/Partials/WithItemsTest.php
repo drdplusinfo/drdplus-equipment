@@ -2,12 +2,9 @@
 namespace DrdPlus\Tests\Equipment\Partials;
 
 use DrdPlus\Equipment\Partials\WithItems;
+use Granam\Tests\Tools\TestWithMockery;
 
-/**
- * @method static assertTrue(bool $condition)
- * @method string getSutClass
- */
-trait WithItemsTest
+abstract class WithItemsTest extends TestWithMockery
 {
     /**
      * @test

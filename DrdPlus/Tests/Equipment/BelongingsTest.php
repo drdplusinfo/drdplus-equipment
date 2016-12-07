@@ -7,12 +7,10 @@ use DrdPlus\Equipment\Partials\WithItems;
 use DrdPlus\Properties\Body\WeightInKg;
 use DrdPlus\Tests\Equipment\Partials\WithItemsTest;
 use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
-use Granam\Tests\Tools\TestWithMockery;
 
-class BelongingsTest extends TestWithMockery
+class BelongingsTest extends WithItemsTest
 {
     use WithWeightTest;
-    use WithItemsTest;
 
     /**
      * @test

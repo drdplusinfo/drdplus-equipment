@@ -9,6 +9,9 @@ use DrdPlus\Equipment\Partials\WithWeight;
 use Granam\Strict\Object\StrictObject;
 use DOctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity()
+ */
 class Equipment extends StrictObject implements Entity, WithWeight
 {
     /**

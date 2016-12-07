@@ -35,7 +35,7 @@ class Item extends StrictObject implements Entity, WithWeight
 
     /**
      * @var WithItems
-     * @ORM\ManyToOne(targetEntity="WithItems",inversedBy="items")
+     * @ORM\ManyToOne(targetEntity="\DrdPlus\Equipment\Partials\WithItems",inversedBy="items")
      */
     private $containerWithThisItem;
 
