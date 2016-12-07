@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Equipment;
+namespace DrdPlus\Equipment\Partials;
 
 use DrdPlus\Properties\Body\WeightInKg;
 

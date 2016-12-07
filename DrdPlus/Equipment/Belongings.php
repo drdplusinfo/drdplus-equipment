@@ -3,11 +3,13 @@ namespace DrdPlus\Equipment;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrineum\Entity\Entity;
+use DrdPlus\Equipment\Partials\WithItems;
+use DrdPlus\Equipment\Partials\WithWeight;
 use DrdPlus\Properties\Body\WeightInKg;
 use Granam\Strict\Object\StrictObject;
 use Doctrine\ORM\Mapping as ORM;
 
-class Belongings extends StrictObject implements Entity, WithWeight, \IteratorAggregate
+class Belongings extends StrictObject implements Entity, WithWeight, WithItems
 {
     /**
      * @var int
@@ -17,13 +19,8 @@ class Belongings extends StrictObject implements Entity, WithWeight, \IteratorAg
      */
     private $id;
     /**
-     * @var Equipment
-     * @ORM\OneToOne(targetEntity="Equipment", mappedBy="belongings")
-     */
-    private $equipment;
-    /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Item",mappedBy="containerWithItems",fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="Item",mappedBy="containerWithThisItem",fetch="EAGER")
      */
     private $items;
 
@@ -34,10 +31,16 @@ class Belongings extends StrictObject implements Entity, WithWeight, \IteratorAg
 
     /**
      * @param Item $item
+     * @return bool
      */
     public function addItem(Item $item)
     {
-        $this->items->add($item);
+        $added = $this->items->add($item);
+        if ($item->getContainerWithThisItem() !== $this) {
+            $item->setContainer($this);
+        }
+
+        return $added;
     }
 
     /**
@@ -83,11 +86,19 @@ class Belongings extends StrictObject implements Entity, WithWeight, \IteratorAg
     }
 
     /**
-     * @return Equipment
+     * @return int
      */
-    public function getEquipment()
+    public function count()
     {
-        return $this->equipment;
+        return count($this->items);
     }
 
+    /**
+     * @param Item $item
+     * @return bool
+     */
+    public function removeItem(Item $item)
+    {
+        return $this->items->removeElement($item);
+    }
 }

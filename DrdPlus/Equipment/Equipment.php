@@ -5,6 +5,7 @@ use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Armaments\BodyArmorCode;
 use DrdPlus\Codes\Armaments\HelmCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
+use DrdPlus\Equipment\Partials\WithWeight;
 use Granam\Strict\Object\StrictObject;
 use DOctrine\ORM\Mapping as ORM;
 
@@ -12,14 +13,12 @@ class Equipment extends StrictObject implements Entity, WithWeight
 {
     /**
      * @var int
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue
      */
     private $id;
     /**
      * @var Belongings
-     * @ORM\OneToOne(targetEntity="Belongings", inversedBy="equipment")
+     * @ORM\OneToOne(targetEntity="Belongings")
      */
     private $belongings;
     /**
@@ -33,11 +32,11 @@ class Equipment extends StrictObject implements Entity, WithWeight
     /**
      * @var WeaponlikeCode
      */
-    private $weaponlikeInMainHand;
+    private $weaponOrShieldInMainHand;
     /**
      * @var WeaponlikeCode
      */
-    private $weaponlikeInOffhand;
+    private $weaponOrShieldInOffhand;
 
     /**
      * Weight of worn armor, weapon and shield is NOT counted, see PPH page 114 left column.
@@ -61,8 +60,8 @@ class Equipment extends StrictObject implements Entity, WithWeight
         $this->belongings = $belongings;
         $this->bodyArmorCode = $bodyArmorCode;
         $this->helmCode = $helmCode;
-        $this->weaponlikeInMainHand = $weaponlikeInMainHand;
-        $this->weaponlikeInOffhand = $weaponlikeInOffhand;
+        $this->weaponOrShieldInMainHand = $weaponlikeInMainHand;
+        $this->weaponOrShieldInOffhand = $weaponlikeInOffhand;
     }
 
     /**
@@ -126,33 +125,33 @@ class Equipment extends StrictObject implements Entity, WithWeight
     /**
      * @return WeaponlikeCode
      */
-    public function getWeaponlikeInMainHand()
+    public function getWeaponOrShieldInMainHand()
     {
-        return $this->weaponlikeInMainHand;
+        return $this->weaponOrShieldInMainHand;
     }
 
     /**
-     * @param WeaponlikeCode $weaponlikeInMainHand
+     * @param WeaponlikeCode $weaponOrShieldInMainHand
      */
-    public function setWeaponlikeInMainHand(WeaponlikeCode $weaponlikeInMainHand)
+    public function setWeaponOrShieldInMainHand(WeaponlikeCode $weaponOrShieldInMainHand)
     {
-        $this->weaponlikeInMainHand = $weaponlikeInMainHand;
+        $this->weaponOrShieldInMainHand = $weaponOrShieldInMainHand;
     }
 
     /**
      * @return WeaponlikeCode
      */
-    public function getWeaponlikeInOffhand()
+    public function getWeaponOrShieldInOffhand()
     {
-        return $this->weaponlikeInOffhand;
+        return $this->weaponOrShieldInOffhand;
     }
 
     /**
-     * @param WeaponlikeCode $weaponlikeInOffhand
+     * @param WeaponlikeCode $weaponOrShieldInOffhand
      */
-    public function setWeaponlikeInOffhand(WeaponlikeCode $weaponlikeInOffhand)
+    public function setWeaponOrShieldInOffhand(WeaponlikeCode $weaponOrShieldInOffhand)
     {
-        $this->weaponlikeInOffhand = $weaponlikeInOffhand;
+        $this->weaponOrShieldInOffhand = $weaponOrShieldInOffhand;
     }
 
 }

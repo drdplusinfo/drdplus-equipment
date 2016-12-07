@@ -2,6 +2,8 @@
 namespace DrdPlus\Equipment;
 
 use Doctrineum\Entity\Entity;
+use DrdPlus\Equipment\Partials\WithItems;
+use DrdPlus\Equipment\Partials\WithWeight;
 use DrdPlus\Properties\Body\WeightInKg;
 use Granam\Scalar\Tools\ToString;
 use Granam\Strict\Object\StrictObject;
@@ -35,12 +37,12 @@ class Item extends StrictObject implements Entity, WithWeight
      * @var WithItems
      * @ORM\ManyToOne(targetEntity="WithItems",inversedBy="items")
      */
-    private $containerWithItems;
+    private $containerWithThisItem;
 
     /**
      * @param string|StringInterface $name
      * @param WeightInKg $weightInKg
-     * @param WithItems $containerWithItems
+     * @param WithItems|null $containerWithItems
      * @throws \Granam\Scalar\Tools\Exceptions\WrongParameterType
      * @throws \DrdPlus\Equipment\Exceptions\ItemNameCanNotBeEmpty
      * @throws \DrdPlus\Equipment\Exceptions\ItemNameIsTooLong
@@ -60,8 +62,18 @@ class Item extends StrictObject implements Entity, WithWeight
         }
         $this->name = $name;
         $this->weightInKg = $weightInKg;
-        $containerWithItems->addItem($this);
-        $this->containerWithItems = $containerWithItems;
+        if ($containerWithItems) {
+            $containerWithItems->addItem($this);
+            $this->containerWithThisItem = $containerWithItems;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getName();
     }
 
     /**
@@ -86,5 +98,23 @@ class Item extends StrictObject implements Entity, WithWeight
     public function getWeightInKg()
     {
         return $this->weightInKg;
+    }
+
+    /**
+     * @return WithItems|null
+     */
+    public function getContainerWithThisItem()
+    {
+        return $this->containerWithThisItem;
+    }
+
+    /**
+     * @param WithItems $containerWithThisItem
+     */
+    public function setContainer(WithItems $containerWithThisItem)
+    {
+        if ($this->containerWithThisItem !== $containerWithThisItem) {
+            $this->containerWithThisItem = $containerWithThisItem;
+        }
     }
 }
