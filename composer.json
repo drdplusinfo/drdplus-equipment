@@ -18,7 +18,7 @@
     "drd-plus/properties": "dev-master"
   },
   "require-dev": {
-    "phpunit/phpunit": "dev-master",
+    "phpunit/phpunit": "^5.7",
     "mockery/mockery": "dev-master"
   },
   "minimum-stability": "dev",
