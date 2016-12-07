@@ -1,12 +1,19 @@
 <?php
-namespace DrdPlus\Equipment;
+namespace DrdPlus\Tests\Equipment;
 
+use DrdPlus\Equipment\Belongings;
+use DrdPlus\Equipment\Item;
 use DrdPlus\Equipment\Partials\WithItems;
 use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tests\Equipment\Partials\WithItemsTest;
+use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
 use Granam\Tests\Tools\TestWithMockery;
 
 class BelongingsTest extends TestWithMockery
 {
+    use WithWeightTest;
+    use WithItemsTest;
+
     /**
      * @test
      */

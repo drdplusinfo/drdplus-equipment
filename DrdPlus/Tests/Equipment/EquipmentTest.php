@@ -1,15 +1,20 @@
 <?php
-namespace DrdPlus\Equipment;
+namespace DrdPlus\Tests\Equipment;
 
 use DrdPlus\Codes\Armaments\BodyArmorCode;
 use DrdPlus\Codes\Armaments\HelmCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\ShieldCode;
+use DrdPlus\Equipment\Belongings;
+use DrdPlus\Equipment\Equipment;
 use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
 use Granam\Tests\Tools\TestWithMockery;
 
 class EquipmentTest extends TestWithMockery
 {
+    use WithWeightTest;
+
     /**
      * @test
      */

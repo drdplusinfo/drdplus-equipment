@@ -1,12 +1,16 @@
 <?php
-namespace DrdPlus\Equipment;
+namespace DrdPlus\Tests\Equipment;
 
+use DrdPlus\Equipment\Item;
 use DrdPlus\Equipment\Partials\WithItems;
 use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
 use Granam\Tests\Tools\TestWithMockery;
 
 class ItemTest extends TestWithMockery
 {
+    use WithWeightTest;
+
     /**
      * @test
      */
