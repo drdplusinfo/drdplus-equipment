@@ -4,6 +4,8 @@ namespace DrdPlus\Equipment;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Armaments\BodyArmorCode;
 use DrdPlus\Codes\Armaments\HelmCode;
+use DrdPlus\Codes\Armaments\MeleeWeaponCode;
+use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Equipment\Partials\WithWeight;
 use Granam\Strict\Object\StrictObject;
@@ -21,23 +23,27 @@ class Equipment extends StrictObject implements Entity, WithWeight
     private $id;
     /**
      * @var Belongings
-     * @ORM\OneToOne(targetEntity="Belongings")
+     * @ORM\OneToOne(targetEntity="Belongings",fetch="EAGER",orphanRemoval=false)
      */
     private $belongings;
     /**
      * @var BodyArmorCode
+     * @ORM\Column(type="body_armor_code")
      */
     private $bodyArmorCode;
     /**
      * @var HelmCode
+     * @ORM\Column(type="helm_code")
      */
     private $helmCode;
     /**
      * @var WeaponlikeCode
+     * @ORM\Column(type="weaponlike_code")
      */
     private $weaponOrShieldInMainHand;
     /**
      * @var WeaponlikeCode
+     * @ORM\Column(type="weaponlike_code")
      */
     private $weaponOrShieldInOffhand;
 
@@ -76,7 +82,7 @@ class Equipment extends StrictObject implements Entity, WithWeight
     }
 
     /**
-     * Weight of worn armor, weapon and shield is NOT counted, see PPH page 114 left column.
+     * Note: weight of worn armor, weapon and shield is NOT counted, see PPH page 114 left column.
      *
      * @return \DrdPlus\Properties\Body\WeightInKg
      */
@@ -102,6 +108,9 @@ class Equipment extends StrictObject implements Entity, WithWeight
     }
 
     /**
+     * Time to change last year model.
+     * Use @see BodyArmorCode::WITHOUT_ARMOR for no armor at all.
+     *
      * @param BodyArmorCode $bodyArmorCode
      */
     public function setBodyArmorCode(BodyArmorCode $bodyArmorCode)
@@ -118,6 +127,9 @@ class Equipment extends StrictObject implements Entity, WithWeight
     }
 
     /**
+     * Time to look more dangerous, less ugly.
+     * Use @see HelmCode::WITHOUT_HELM for no helm.
+     *
      * @param HelmCode $helmCode
      */
     public function setHelmCode(HelmCode $helmCode)
@@ -134,6 +146,9 @@ class Equipment extends StrictObject implements Entity, WithWeight
     }
 
     /**
+     * Use @see ShieldCode::WITHOUT_SHIELD
+     * or @see MeleeWeaponCode::HAND for empty hand
+     *
      * @param WeaponlikeCode $weaponOrShieldInMainHand
      */
     public function setWeaponOrShieldInMainHand(WeaponlikeCode $weaponOrShieldInMainHand)
@@ -150,6 +165,9 @@ class Equipment extends StrictObject implements Entity, WithWeight
     }
 
     /**
+     * Use @see ShieldCode::WITHOUT_SHIELD
+     * or @see MeleeWeaponCode::HAND for empty hand
+     *
      * @param WeaponlikeCode $weaponOrShieldInOffhand
      */
     public function setWeaponOrShieldInOffhand(WeaponlikeCode $weaponOrShieldInOffhand)
