@@ -30,12 +30,12 @@ class Equipment extends StrictObject implements Entity, WithWeight
      * @var BodyArmorCode
      * @ORM\Column(type="body_armor_code")
      */
-    private $bodyArmorCode;
+    private $wornBodyArmor;
     /**
      * @var HelmCode
      * @ORM\Column(type="helm_code")
      */
-    private $helmCode;
+    private $wornHelm;
     /**
      * @var WeaponlikeCode
      * @ORM\Column(type="weaponlike_code")
@@ -51,8 +51,8 @@ class Equipment extends StrictObject implements Entity, WithWeight
      * Weight of worn armor, weapon and shield is NOT counted, see PPH page 114 left column.
      *
      * @param Belongings $belongings
-     * @param BodyArmorCode $bodyArmorCode use @see BodyArmorCode::WITHOUT_ARMOR for no armor
-     * @param HelmCode $helmCode use @see HelmCode::WITHOUT_HELM for no helm
+     * @param BodyArmorCode $wornBodyArmor use @see BodyArmorCode::WITHOUT_ARMOR for no armor
+     * @param HelmCode $wornHelm use @see HelmCode::WITHOUT_HELM for no helm
      * @param WeaponlikeCode $weaponlikeInMainHand use @see \DrdPlus\Codes\Armaments\MeleeWeaponCode::HAND
      * or @see \DrdPlus\Codes\Armaments\ShieldCode::WITHOUT_SHIELD for empty main hand
      * @param WeaponlikeCode $weaponlikeInOffhand use @see \DrdPlus\Codes\Armaments\MeleeWeaponCode::HAND
@@ -60,15 +60,15 @@ class Equipment extends StrictObject implements Entity, WithWeight
      */
     public function __construct(
         Belongings $belongings,
-        BodyArmorCode $bodyArmorCode,
-        HelmCode $helmCode,
+        BodyArmorCode $wornBodyArmor,
+        HelmCode $wornHelm,
         WeaponlikeCode $weaponlikeInMainHand,
         WeaponlikeCode $weaponlikeInOffhand
     )
     {
         $this->belongings = $belongings;
-        $this->bodyArmorCode = $bodyArmorCode;
-        $this->helmCode = $helmCode;
+        $this->wornBodyArmor = $wornBodyArmor;
+        $this->wornHelm = $wornHelm;
         $this->weaponOrShieldInMainHand = $weaponlikeInMainHand;
         $this->weaponOrShieldInOffhand = $weaponlikeInOffhand;
     }
@@ -102,39 +102,39 @@ class Equipment extends StrictObject implements Entity, WithWeight
     /**
      * @return BodyArmorCode
      */
-    public function getBodyArmorCode()
+    public function getWornBodyArmor()
     {
-        return $this->bodyArmorCode;
+        return $this->wornBodyArmor;
     }
 
     /**
      * Time to change last year model.
      * Use @see BodyArmorCode::WITHOUT_ARMOR for no armor at all.
      *
-     * @param BodyArmorCode $bodyArmorCode
+     * @param BodyArmorCode $wornBodyArmor
      */
-    public function setBodyArmorCode(BodyArmorCode $bodyArmorCode)
+    public function setWornBodyArmor(BodyArmorCode $wornBodyArmor)
     {
-        $this->bodyArmorCode = $bodyArmorCode;
+        $this->wornBodyArmor = $wornBodyArmor;
     }
 
     /**
      * @return HelmCode
      */
-    public function getHelmCode()
+    public function getWornHelm()
     {
-        return $this->helmCode;
+        return $this->wornHelm;
     }
 
     /**
      * Time to look more dangerous, less ugly.
      * Use @see HelmCode::WITHOUT_HELM for no helm.
      *
-     * @param HelmCode $helmCode
+     * @param HelmCode $wornHelm
      */
-    public function setHelmCode(HelmCode $helmCode)
+    public function setWornHelm(HelmCode $wornHelm)
     {
-        $this->helmCode = $helmCode;
+        $this->wornHelm = $wornHelm;
     }
 
     /**

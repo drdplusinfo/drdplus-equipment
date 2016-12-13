@@ -31,15 +31,15 @@ class EquipmentTest extends TestWithMockery
         self::assertSame($belongings, $equipment->getBelongings());
         self::assertSame($belongings->getWeightInKg(), $equipment->getWeightInKg());
 
-        self::assertSame($bodyArmorCode, $equipment->getBodyArmorCode());
+        self::assertSame($bodyArmorCode, $equipment->getWornBodyArmor());
         $anotherBodyArmorCode = BodyArmorCode::getIt(BodyArmorCode::WITHOUT_ARMOR);
-        $equipment->setBodyArmorCode($anotherBodyArmorCode);
-        self::assertSame($anotherBodyArmorCode, $equipment->getBodyArmorCode());
+        $equipment->setWornBodyArmor($anotherBodyArmorCode);
+        self::assertSame($anotherBodyArmorCode, $equipment->getWornBodyArmor());
 
-        self::assertSame($helmCode, $equipment->getHelmCode());
+        self::assertSame($helmCode, $equipment->getWornHelm());
         $anotherHelmCode = HelmCode::getIt(HelmCode::LEATHER_CAP);
-        $equipment->setHelmCode($anotherHelmCode);
-        self::assertSame($anotherHelmCode, $equipment->getHelmCode());
+        $equipment->setWornHelm($anotherHelmCode);
+        self::assertSame($anotherHelmCode, $equipment->getWornHelm());
 
         self::assertSame($mainHand, $equipment->getWeaponOrShieldInMainHand());
         $anotherMainHand = ShieldCode::getIt(ShieldCode::MEDIUM_SHIELD);
