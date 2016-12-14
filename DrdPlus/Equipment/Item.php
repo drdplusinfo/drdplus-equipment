@@ -3,7 +3,6 @@ namespace DrdPlus\Equipment;
 
 use Doctrineum\Entity\Entity;
 use DrdPlus\Equipment\Partials\WithWeight;
-use DrdPlus\Properties\Body\WeightInKg;
 use DrdPlus\Tables\Measurements\Weight\Weight;
 use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use Granam\Scalar\Tools\ToString;
@@ -32,16 +31,14 @@ class Item extends StrictObject implements Entity, WithWeight
      * @var float
      * @ORM\Column(type="float")
      */
-    private $weightInKilograms;
+    private $weightInKg;
+    /** @var Weight */
+    private $weight;
     /**
      * @var Belongings
      * @ORM\ManyToOne(targetEntity="\DrdPlus\Equipment\Belongings",inversedBy="items")
      */
     private $belongings;
-    /**
-     * @var Weight
-     */
-    private $weight;
 
     /**
      * @param string|StringInterface $name
@@ -65,7 +62,7 @@ class Item extends StrictObject implements Entity, WithWeight
             );
         }
         $this->name = $name;
-        $this->weightInKilograms = $weight->getKilograms(); // just for persistence
+        $this->weightInKg = $weight->getKilograms(); // just for persistence
         $this->weight = $weight;
         if ($containerWithItems) {
             $containerWithItems->addItem($this);
@@ -104,7 +101,7 @@ class Item extends StrictObject implements Entity, WithWeight
     public function getWeight(WeightTable $weightTable)
     {
         if ($this->weight === null) {
-            $this->weight = new Weight($this->weightInKilograms, WeightInKg::WEIGHT_IN_KG, $weightTable);
+            $this->weight = new Weight($this->weightInKg, Weight::KG, $weightTable);
         }
 
         return $this->weight;

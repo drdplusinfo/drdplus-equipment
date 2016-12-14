@@ -28,7 +28,7 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 
     protected function createEntitiesToPersist()
     {
-        $weightTable= new WeightTable();
+        $weightTable = new WeightTable();
         $item1 = new Item('foo', new Weight(78.123, Weight::KG, $weightTable));
 
         $belongings = new Belongings();
@@ -47,8 +47,27 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $item1,
             $item2,
             $belongings,
-            $equipment
+            $equipment,
         ];
     }
 
+    /**
+     * @test
+     */
+    public function I_can_persist_and_fetch_entities()
+    {
+        $fetchedEntities = parent::I_can_persist_and_fetch_entities();
+        /** @var Item[] $items */
+        $items = $fetchedEntities[Item::class];
+        self::assertNotEmpty($items);
+        $weightTable = new WeightTable();
+        foreach ($items as $item) {
+            $weightInKgProperty = (new \ReflectionClass($item))->getProperty('weightInKg');
+            $weightInKgProperty->setAccessible(true);
+            $weightInKg = $weightInKgProperty->getValue($item);
+            $weight = $item->getWeight($weightTable);
+            self::assertInstanceOf(Weight::class, $weight);
+            self::assertSame($weightInKg, $weight->getKilograms());
+        }
+    }
 }
