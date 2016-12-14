@@ -4,8 +4,9 @@ namespace DrdPlus\Equipment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Equipment\Partials\WithWeight;
-use DrdPlus\Properties\Body\WeightInKg;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Tables\Measurements\Weight\Weight;
+use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use Granam\Strict\Object\StrictObject;
 
 /**
@@ -86,19 +87,22 @@ class Belongings extends StrictObject implements WithWeight, Entity, \Countable,
     }
 
     /**
-     * @return WeightInKg
+     * @param WeightTable $weightTable
+     * @return Weight
      */
-    public function getWeightInKg()
+    public function getWeight(WeightTable $weightTable)
     {
-        return WeightInKg::getIt(
+        return new Weight(
             array_sum(
                 array_map(
-                    function (Item $item) {
-                        return $item->getWeightInKg()->getValue();
+                    function (Item $item) use ($weightTable) {
+                        return $item->getWeight($weightTable)->getValue();
                     },
                     $this->getItems()
                 )
-            )
+            ),
+            Weight::KG,
+            $weightTable
         );
     }
 }

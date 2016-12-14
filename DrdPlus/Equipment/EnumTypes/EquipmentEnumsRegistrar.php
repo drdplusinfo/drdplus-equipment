@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Equipment;
+namespace DrdPlus\Equipment\EnumTypes;
 
 use DrdPlus\Codes\Armaments\EnumTypes\BodyArmorCodeType;
 use DrdPlus\Codes\Armaments\EnumTypes\HelmCodeType;

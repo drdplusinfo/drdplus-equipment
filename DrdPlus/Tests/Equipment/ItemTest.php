@@ -3,7 +3,8 @@ namespace DrdPlus\Tests\Equipment;
 
 use DrdPlus\Equipment\Belongings;
 use DrdPlus\Equipment\Item;
-use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tables\Measurements\Weight\Weight;
+use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
 use Granam\Tests\Tools\TestWithMockery;
 
@@ -16,11 +17,11 @@ class ItemTest extends TestWithMockery
      */
     public function I_can_create_it_without_any_container()
     {
-        $item = new Item('foo', $weightInKg = $this->createWeightInKg());
+        $item = new Item('foo', $weight = $this->createWeight());
         self::assertNull($item->getId());
         self::assertSame('foo', $item->getName());
         self::assertSame('foo', (string)$item);
-        self::assertSame($weightInKg, $item->getWeightInKg());
+        self::assertSame($weight, $item->getWeight(new WeightTable()));
         self::assertNull($item->getBelongings());
     }
 
@@ -29,7 +30,7 @@ class ItemTest extends TestWithMockery
      */
     public function I_can_set_and_change_container()
     {
-        $item = new Item('foo', $this->createWeightInKg());
+        $item = new Item('foo', $this->createWeight());
         self::assertNull($item->getBelongings());
         $item->setBelongings($belongings = $this->createBelongings());
         self::assertSame($belongings, $item->getBelongings());
@@ -41,11 +42,16 @@ class ItemTest extends TestWithMockery
     }
 
     /**
-     * @return \Mockery\MockInterface|WeightInKg
+     * @param float $kilograms
+     * @return \Mockery\MockInterface|Weight
      */
-    private function createWeightInKg()
+    private function createWeight($kilograms = 123.456)
     {
-        return $this->mockery(WeightInKg::class);
+        $weight = $this->mockery(Weight::class);
+        $weight->shouldReceive('getKilograms')
+            ->andReturn($kilograms);
+
+        return $weight;
     }
 
     /**
@@ -55,13 +61,13 @@ class ItemTest extends TestWithMockery
     {
         $item = new Item(
             'foo',
-            $weightInKg = $this->createWeightInKg(),
+            $weight = $this->createWeight(),
             $belongings = $this->createBelongings()
         );
         self::assertNull($item->getId());
         self::assertSame('foo', $item->getName());
         self::assertSame('foo', (string)$item);
-        self::assertSame($weightInKg, $item->getWeightInKg());
+        self::assertSame($weight, $item->getWeight(new WeightTable()));
         self::assertSame($belongings, $item->getBelongings());
         $item->setBelongings($belongings);
         self::assertSame($belongings, $item->getBelongings());
@@ -85,7 +91,7 @@ class ItemTest extends TestWithMockery
      */
     public function I_can_not_create_it_with_empty_name()
     {
-        new Item('', $this->createWeightInKg());
+        new Item('', $this->createWeight());
     }
 
     /**
@@ -102,12 +108,12 @@ class ItemTest extends TestWithMockery
 
         $veryLongName = str_repeat('a', $maxLength);
         try {
-            new Item($veryLongName, $this->createWeightInKg());
+            new Item($veryLongName, $this->createWeight());
         } catch (\Exception $exception) {
             self::fail('No exception expected so far: ' . $exception->getMessage());
         }
 
         $tooLongName = $veryLongName . 'b';
-        new Item($tooLongName, $this->createWeightInKg());
+        new Item($tooLongName, $this->createWeight());
     }
 }

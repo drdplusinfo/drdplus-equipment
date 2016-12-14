@@ -1,28 +1,48 @@
 <?php
-namespace DrdPlus\Tests\Equipment;
+namespace DrdPlus\Tests\Equipment\EnumTypes;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrineum\Scalar\ScalarEnumType;
 use DrdPlus\Codes\Armaments\EnumTypes\BodyArmorCodeType;
 use DrdPlus\Codes\Armaments\EnumTypes\HelmCodeType;
 use DrdPlus\Codes\Armaments\EnumTypes\WeaponlikeCodeType;
-use DrdPlus\Equipment\EquipmentEnumsRegistrar;
+use DrdPlus\Equipment\EnumTypes\EquipmentEnumsRegistrar;
 use DrdPlus\Properties\Body\EnumTypes\WeightInKgType;
 use Granam\Tests\Tools\TestWithMockery;
 
 class EquipmentEnumsRegistrarTest extends TestWithMockery
 {
+    private $previousTypes;
+    private $previousSubTypes;
+
     protected function setUp()
     {
         // remove tested type from registration
         $_typesMap = new \ReflectionProperty(Type::class, '_typesMap');
         $_typesMap->setAccessible(true);
+        $this->previousTypes = $_typesMap->getValue();
         $_typesMap->setValue([]);
 
         // remove any subtypes from registration
         $subTypeEnums = new \ReflectionProperty(ScalarEnumType::class, 'subTypeEnums');
         $subTypeEnums->setAccessible(true);
+        $this->previousSubTypes = $_typesMap->getValue();
         $subTypeEnums->setValue([]);
+        parent::setUp();
+    }
+
+    protected function tearDown()
+    {
+        // restoring original types
+        $_typesMap = new \ReflectionProperty(Type::class, '_typesMap');
+        $_typesMap->setAccessible(true);
+        $_typesMap->setValue($this->previousTypes);
+
+        // restoring original sub-types
+        $subTypeEnums = new \ReflectionProperty(ScalarEnumType::class, 'subTypeEnums');
+        $subTypeEnums->setAccessible(true);
+        $subTypeEnums->setValue($this->previousSubTypes);
+        parent::tearDown();
     }
 
     /**

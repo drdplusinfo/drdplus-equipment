@@ -7,7 +7,8 @@ use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Equipment\Belongings;
 use DrdPlus\Equipment\Equipment;
-use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tables\Measurements\Weight\Weight;
+use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
 use Granam\Tests\Tools\TestWithMockery;
 
@@ -21,7 +22,7 @@ class EquipmentTest extends TestWithMockery
     public function I_can_use_it()
     {
         $equipment = new Equipment(
-            $belongings = $this->createBelongings(),
+            $belongings = $this->createBelongings($weight = $this->createWeight(123.789)),
             $bodyArmorCode = BodyArmorCode::getIt(BodyArmorCode::HOBNAILED_ARMOR),
             $helmCode = HelmCode::getIt(HelmCode::CONICAL_HELM),
             $mainHand = RangedWeaponCode::getIt(RangedWeaponCode::LIGHT_CROSSBOW),
@@ -29,7 +30,8 @@ class EquipmentTest extends TestWithMockery
         );
         self::assertNull($equipment->getId());
         self::assertSame($belongings, $equipment->getBelongings());
-        self::assertSame($belongings->getWeightInKg(), $equipment->getWeightInKg());
+        $weightTable = new WeightTable();
+        self::assertSame($belongings->getWeight($weightTable), $equipment->getWeight($weightTable));
 
         self::assertSame($bodyArmorCode, $equipment->getWornBodyArmor());
         $anotherBodyArmorCode = BodyArmorCode::getIt(BodyArmorCode::WITHOUT_ARMOR);
@@ -53,14 +55,29 @@ class EquipmentTest extends TestWithMockery
     }
 
     /**
+     * @param Weight $weight
      * @return \Mockery\MockInterface|Belongings
      */
-    private function createBelongings()
+    private function createBelongings(Weight $weight)
     {
         $belongings = $this->mockery(Belongings::class);
-        $belongings->shouldReceive('getWeightInKg')
-            ->andReturn($this->mockery(WeightInKg::class));
+        $belongings->shouldReceive('getWeight')
+            ->with($this->type(WeightTable::class))
+            ->andReturn($weight);
 
         return $belongings;
+    }
+
+    /**
+     * @param $value
+     * @return \Mockery\MockInterface|Weight
+     */
+    private function createWeight($value)
+    {
+        $weight = $this->mockery(Weight::class);
+        $weight->shouldReceive('getValue')
+            ->andReturn($value);
+
+        return $weight;
     }
 }

@@ -8,6 +8,8 @@ use DrdPlus\Codes\Armaments\MeleeWeaponCode;
 use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Equipment\Partials\WithWeight;
+use DrdPlus\Tables\Measurements\Weight\Weight;
+use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use Granam\Strict\Object\StrictObject;
 use DOctrine\ORM\Mapping as ORM;
 
@@ -84,11 +86,12 @@ class Equipment extends StrictObject implements Entity, WithWeight
     /**
      * Note: weight of worn armor, weapon and shield is NOT counted, see PPH page 114 left column.
      *
-     * @return \DrdPlus\Properties\Body\WeightInKg
+     * @param WeightTable $weightTable
+     * @return Weight
      */
-    public function getWeightInKg()
+    public function getWeight(WeightTable $weightTable)
     {
-        return $this->getBelongings()->getWeightInKg();
+        return $this->getBelongings()->getWeight($weightTable);
     }
 
     /**

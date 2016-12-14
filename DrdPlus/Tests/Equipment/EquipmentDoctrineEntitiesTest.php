@@ -7,10 +7,11 @@ use DrdPlus\Codes\Armaments\HelmCode;
 use DrdPlus\Codes\Armaments\MeleeWeaponCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Equipment\Belongings;
+use DrdPlus\Equipment\EnumTypes\EquipmentEnumsRegistrar;
 use DrdPlus\Equipment\Equipment;
-use DrdPlus\Equipment\EquipmentEnumsRegistrar;
 use DrdPlus\Equipment\Item;
-use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tables\Measurements\Weight\Weight;
+use DrdPlus\Tables\Measurements\Weight\WeightTable;
 
 class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 {
@@ -27,10 +28,11 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 
     protected function createEntitiesToPersist()
     {
-        $item1 = new Item('foo', WeightInKg::getIt(78.123));
+        $weightTable= new WeightTable();
+        $item1 = new Item('foo', new Weight(78.123, Weight::KG, $weightTable));
 
         $belongings = new Belongings();
-        $item2 = new Item('bar', WeightInKg::getIt(99));
+        $item2 = new Item('bar', new Weight(99, Weight::KG, $weightTable));
         $belongings->addItem($item2);
 
         $equipment = new Equipment(

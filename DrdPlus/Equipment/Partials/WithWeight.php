@@ -1,12 +1,14 @@
 <?php
 namespace DrdPlus\Equipment\Partials;
 
-use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tables\Measurements\Weight\Weight;
+use DrdPlus\Tables\Measurements\Weight\WeightTable;
 
 interface WithWeight
 {
     /**
-     * @return WeightInKg
+     * @param WeightTable $weightTable
+     * @return Weight
      */
-    public function getWeightInKg();
+    public function getWeight(WeightTable $weightTable);
 }

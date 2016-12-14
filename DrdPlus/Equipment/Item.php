@@ -4,6 +4,8 @@ namespace DrdPlus\Equipment;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Equipment\Partials\WithWeight;
 use DrdPlus\Properties\Body\WeightInKg;
+use DrdPlus\Tables\Measurements\Weight\Weight;
+use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use Granam\Scalar\Tools\ToString;
 use Granam\Strict\Object\StrictObject;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,31 +29,34 @@ class Item extends StrictObject implements Entity, WithWeight
      */
     private $name;
     /**
-     * @var WeightInKg
-     * @ORM\Column(type="weight_in_kg")
+     * @var float
+     * @ORM\Column(type="float")
      */
-    private $weightInKg;
-
+    private $weightInKilograms;
     /**
      * @var Belongings
      * @ORM\ManyToOne(targetEntity="\DrdPlus\Equipment\Belongings",inversedBy="items")
      */
     private $belongings;
+    /**
+     * @var Weight
+     */
+    private $weight;
 
     /**
      * @param string|StringInterface $name
-     * @param WeightInKg $weightInKg
+     * @param Weight $weight
      * @param Belongings|null $containerWithItems
      * @throws \Granam\Scalar\Tools\Exceptions\WrongParameterType
      * @throws \DrdPlus\Equipment\Exceptions\ItemNameCanNotBeEmpty
      * @throws \DrdPlus\Equipment\Exceptions\ItemNameIsTooLong
      */
-    public function __construct($name, WeightInKg $weightInKg, Belongings $containerWithItems = null)
+    public function __construct($name, Weight $weight, Belongings $containerWithItems = null)
     {
         $name = trim(ToString::toString($name));
         if ($name === '') {
             throw new Exceptions\ItemNameCanNotBeEmpty(
-                "Given name of an item of weight {$weightInKg} is empty"
+                "Given name of an item of weight {$weight} is empty"
             );
         }
         if (strlen($name) > 256) {
@@ -60,7 +65,8 @@ class Item extends StrictObject implements Entity, WithWeight
             );
         }
         $this->name = $name;
-        $this->weightInKg = $weightInKg;
+        $this->weightInKilograms = $weight->getKilograms(); // just for persistence
+        $this->weight = $weight;
         if ($containerWithItems) {
             $containerWithItems->addItem($this);
             $this->belongings = $containerWithItems;
@@ -92,11 +98,16 @@ class Item extends StrictObject implements Entity, WithWeight
     }
 
     /**
-     * @return WeightInKg
+     * @param WeightTable $weightTable
+     * @return Weight
      */
-    public function getWeightInKg()
+    public function getWeight(WeightTable $weightTable)
     {
-        return $this->weightInKg;
+        if ($this->weight === null) {
+            $this->weight = new Weight($this->weightInKilograms, WeightInKg::WEIGHT_IN_KG, $weightTable);
+        }
+
+        return $this->weight;
     }
 
     /**
