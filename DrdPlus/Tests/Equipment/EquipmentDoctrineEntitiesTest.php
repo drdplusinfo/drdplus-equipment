@@ -32,11 +32,11 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         $item1 = new Item('foo', new Weight(78.123, Weight::KG, $weightTable));
 
         $belongings = new Belongings();
-        $item2 = new Item('bar', new Weight(99, Weight::KG, $weightTable));
-        $belongings->addItem($item2);
+        // explicitly new instance of Item to test cascade persist
+        $belongings->addItem(new Item('bar', new Weight(99, Weight::KG, $weightTable)));
 
         $equipment = new Equipment(
-            $belongings,
+            new Belongings(), // explicitly new instance to test cascade persist
             BodyArmorCode::getIt(BodyArmorCode::WITHOUT_ARMOR),
             HelmCode::getIt(HelmCode::CHAINMAIL_HOOD),
             MeleeWeaponCode::getIt(MeleeWeaponCode::BOWIE_KNIFE),
@@ -45,7 +45,6 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 
         return [
             $item1,
-            $item2,
             $belongings,
             $equipment,
         ];

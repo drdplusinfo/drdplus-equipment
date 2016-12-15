@@ -25,7 +25,7 @@ class Equipment extends StrictObject implements Entity, WithWeight
     private $id;
     /**
      * @var Belongings
-     * @ORM\OneToOne(targetEntity="Belongings",fetch="EAGER",orphanRemoval=false)
+     * @ORM\OneToOne(targetEntity="Belongings",fetch="EAGER",orphanRemoval=false,cascade={"persist"})
      */
     private $belongings;
     /**

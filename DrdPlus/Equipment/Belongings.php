@@ -18,12 +18,12 @@ class Belongings extends StrictObject implements WithWeight, Entity, \Countable,
      * @var int
      * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue
      */
-    protected $id;
+    private $id;
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="\DrdPlus\Equipment\Item",mappedBy="belongings",fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="\DrdPlus\Equipment\Item",mappedBy="belongings",fetch="EAGER",cascade={"persist"})
      */
-    protected $items;
+    private $items;
 
     public function __construct()
     {
