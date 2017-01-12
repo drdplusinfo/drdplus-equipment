@@ -24,7 +24,7 @@ class EquipmentEnumsRegistrarTest extends TestWithMockery
         $_typesMap->setValue([]);
 
         // remove any subtypes from registration
-        $subTypeEnums = new \ReflectionProperty(ScalarEnumType::class, 'subTypeEnums');
+        $subTypeEnums = new \ReflectionProperty(ScalarEnumType::class, 'enumSubTypesMap');
         $subTypeEnums->setAccessible(true);
         $this->previousSubTypes = $_typesMap->getValue();
         $subTypeEnums->setValue([]);
@@ -39,7 +39,7 @@ class EquipmentEnumsRegistrarTest extends TestWithMockery
         $_typesMap->setValue($this->previousTypes);
 
         // restoring original sub-types
-        $subTypeEnums = new \ReflectionProperty(ScalarEnumType::class, 'subTypeEnums');
+        $subTypeEnums = new \ReflectionProperty(ScalarEnumType::class, 'enumSubTypesMap');
         $subTypeEnums->setAccessible(true);
         $subTypeEnums->setValue($this->previousSubTypes);
         parent::tearDown();
