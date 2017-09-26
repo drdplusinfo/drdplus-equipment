@@ -26,7 +26,7 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         return __DIR__ . '/../../Equipment';
     }
 
-    protected function createEntitiesToPersist()
+    protected function createEntitiesToPersist(): array
     {
         $weightTable = new WeightTable();
         $item1 = new Item('foo', new Weight(78.123, Weight::KG, $weightTable));
@@ -53,7 +53,7 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
     /**
      * @test
      */
-    public function I_can_persist_and_fetch_entities()
+    public function I_can_persist_and_fetch_entities(): array
     {
         $fetchedEntities = parent::I_can_persist_and_fetch_entities();
         /** @var Item[] $items */
@@ -68,5 +68,7 @@ class EquipmentDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             self::assertInstanceOf(Weight::class, $weight);
             self::assertSame($weightInKg, $weight->getKilograms());
         }
+
+        return $fetchedEntities;
     }
 }

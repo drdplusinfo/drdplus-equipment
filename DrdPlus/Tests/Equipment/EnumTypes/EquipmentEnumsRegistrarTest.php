@@ -7,7 +7,7 @@ use DrdPlus\Codes\Armaments\EnumTypes\BodyArmorCodeType;
 use DrdPlus\Codes\Armaments\EnumTypes\HelmCodeType;
 use DrdPlus\Codes\Armaments\EnumTypes\WeaponlikeCodeType;
 use DrdPlus\Equipment\EnumTypes\EquipmentEnumsRegistrar;
-use DrdPlus\Properties\Body\EnumTypes\WeightInKgType;
+use DrdPlus\Properties\Body\EnumTypes\BodyWeightInKgType;
 use Granam\Tests\Tools\TestWithMockery;
 
 class EquipmentEnumsRegistrarTest extends TestWithMockery
@@ -50,12 +50,12 @@ class EquipmentEnumsRegistrarTest extends TestWithMockery
      */
     public function I_can_register_all_required_enums_at_once()
     {
-        self::assertFalse(Type::hasType(WeightInKgType::WEIGHT_IN_KG));
+        self::assertFalse(Type::hasType(BodyWeightInKgType::BODY_WEIGHT_IN_KG));
         self::assertFalse(Type::hasType(WeaponlikeCodeType::WEAPONLIKE_CODE));
         self::assertFalse(Type::hasType(BodyArmorCodeType::BODY_ARMOR_CODE));
         self::assertFalse(Type::hasType(HelmCodeType::HELM_CODE));
         EquipmentEnumsRegistrar::registerAll();
-        self::assertTrue(Type::hasType(WeightInKgType::WEIGHT_IN_KG));
+        self::assertTrue(Type::hasType(BodyWeightInKgType::BODY_WEIGHT_IN_KG));
         self::assertTrue(Type::hasType(WeaponlikeCodeType::WEAPONLIKE_CODE));
         self::assertTrue(Type::hasType(BodyArmorCodeType::BODY_ARMOR_CODE));
         self::assertTrue(Type::hasType(HelmCodeType::HELM_CODE));
