@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Equipment\EnumTypes;
 
 use Doctrine\DBAL\Types\Type;
@@ -15,7 +17,7 @@ class EquipmentEnumsRegistrarTest extends TestWithMockery
     private $previousTypes;
     private $previousSubTypes;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // remove tested type from registration
         $_typesMap = new \ReflectionProperty(Type::class, '_typesMap');
@@ -31,7 +33,7 @@ class EquipmentEnumsRegistrarTest extends TestWithMockery
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // restoring original types
         $_typesMap = new \ReflectionProperty(Type::class, '_typesMap');
@@ -48,7 +50,7 @@ class EquipmentEnumsRegistrarTest extends TestWithMockery
     /**
      * @test
      */
-    public function I_can_register_all_required_enums_at_once()
+    public function I_can_register_all_required_enums_at_once(): void
     {
         self::assertFalse(Type::hasType(BodyWeightInKgType::BODY_WEIGHT_IN_KG));
         self::assertFalse(Type::hasType(WeaponlikeCodeType::WEAPONLIKE_CODE));

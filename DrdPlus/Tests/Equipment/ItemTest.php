@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Equipment;
 
 use DrdPlus\Equipment\Belongings;
@@ -99,14 +101,14 @@ class ItemTest extends TestWithMockery
      * @expectedException \DrdPlus\Equipment\Exceptions\ItemNameIsTooLong
      * @expectedExceptionMessageRegExp ~aaab~
      */
-    public function I_can_not_create_it_with_extremely_long_name()
+    public function I_can_not_create_it_with_extremely_long_name(): void
     {
         $nameReflection = new \ReflectionProperty(Item::class, 'name');
         self::assertGreaterThan(0, preg_match('~length=(?<maxLength>\d+)~', $nameReflection->getDocComment(), $matches));
-        $maxLength = $matches['maxLength'];
+        $maxLength = (int)$matches['maxLength'];
         self::assertGreaterThan(0, $maxLength);
 
-        $veryLongName = str_repeat('a', $maxLength);
+        $veryLongName = \str_repeat('a', $maxLength);
         try {
             new Item($veryLongName, $this->createWeight());
         } catch (\Exception $exception) {
