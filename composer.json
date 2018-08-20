@@ -1,5 +1,5 @@
 {
-  "name": "drd-plus/equipment",
+  "name": "drdplus/equipment",
   "license": "MIT",
   "type": "project",
   "description": "Belongings for Drd+",
@@ -14,7 +14,7 @@
     "granam/strict-object": "^3.0",
     "doctrineum/entity": "^2.1",
     "doctrineum/string": "^2.1",
-    "drd-plus/properties": "^1.0"
+    "drdplus/properties": "^1.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
