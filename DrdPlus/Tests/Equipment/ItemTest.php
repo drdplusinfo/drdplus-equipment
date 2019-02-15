@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Equipment;
 
@@ -20,7 +20,6 @@ class ItemTest extends TestWithMockery
     public function I_can_create_it_without_any_container()
     {
         $item = new Item('foo', $weight = $this->createWeight());
-        self::assertNull($item->getId());
         self::assertSame('foo', $item->getName());
         self::assertSame('foo', (string)$item);
         self::assertSame($weight, $item->getWeight(new WeightTable()));
@@ -66,7 +65,6 @@ class ItemTest extends TestWithMockery
             $weight = $this->createWeight(),
             $belongings = $this->createBelongings()
         );
-        self::assertNull($item->getId());
         self::assertSame('foo', $item->getName());
         self::assertSame('foo', (string)$item);
         self::assertSame($weight, $item->getWeight(new WeightTable()));
@@ -94,28 +92,5 @@ class ItemTest extends TestWithMockery
     public function I_can_not_create_it_with_empty_name()
     {
         new Item('', $this->createWeight());
-    }
-
-    /**
-     * @test
-     * @expectedException \DrdPlus\Equipment\Exceptions\ItemNameIsTooLong
-     * @expectedExceptionMessageRegExp ~aaab~
-     */
-    public function I_can_not_create_it_with_extremely_long_name(): void
-    {
-        $nameReflection = new \ReflectionProperty(Item::class, 'name');
-        self::assertGreaterThan(0, preg_match('~length=(?<maxLength>\d+)~', $nameReflection->getDocComment(), $matches));
-        $maxLength = (int)$matches['maxLength'];
-        self::assertGreaterThan(0, $maxLength);
-
-        $veryLongName = \str_repeat('a', $maxLength);
-        try {
-            new Item($veryLongName, $this->createWeight());
-        } catch (\Exception $exception) {
-            self::fail('No exception expected so far: ' . $exception->getMessage());
-        }
-
-        $tooLongName = $veryLongName . 'b';
-        new Item($tooLongName, $this->createWeight());
     }
 }

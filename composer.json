@@ -10,11 +10,8 @@
   },
   "require": {
     "php": ">=7.1",
-    "doctrine/orm": ">=2.5",
-    "granam/strict-object": "^3.0",
-    "doctrineum/entity": "^2.1",
-    "doctrineum/string": "^2.1",
-    "drdplus/properties": "^1.0"
+    "granam/string-enum": "~1.0",
+    "drdplus/properties": "~2.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",

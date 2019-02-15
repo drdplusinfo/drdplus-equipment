@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Equipment;
 
@@ -20,7 +20,6 @@ class BelongingsTest extends TestWithMockery
     public function I_can_add_and_remove_item()
     {
         $belongings = new Belongings();
-        self::assertNull($belongings->getId());
         self::assertCount(0, $belongings);
         $belongings->addItem($item = $this->createItem($belongings, true /* already paired with */));
         self::assertCount(1, $belongings);

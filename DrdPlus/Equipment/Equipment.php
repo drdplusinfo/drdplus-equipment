@@ -1,9 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Equipment;
 
-use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Armaments\BodyArmorCode;
 use DrdPlus\Codes\Armaments\HelmCode;
 use DrdPlus\Codes\Armaments\MeleeWeaponCode;
@@ -13,41 +12,27 @@ use DrdPlus\Equipment\Partials\WithWeight;
 use DrdPlus\Tables\Measurements\Weight\Weight;
 use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use Granam\Strict\Object\StrictObject;
-use DOctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- */
-class Equipment extends StrictObject implements Entity, WithWeight
+class Equipment extends StrictObject implements WithWeight
 {
     /**
-     * @var int
-     * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue
-     */
-    private $id;
-    /**
      * @var Belongings
-     * @ORM\OneToOne(targetEntity="Belongings",fetch="EAGER",orphanRemoval=false,cascade={"persist"})
      */
     private $belongings;
     /**
      * @var BodyArmorCode
-     * @ORM\Column(type="body_armor_code")
      */
     private $wornBodyArmor;
     /**
      * @var HelmCode
-     * @ORM\Column(type="helm_code")
      */
     private $wornHelm;
     /**
      * @var WeaponlikeCode
-     * @ORM\Column(type="weaponlike_code")
      */
     private $weaponOrShieldInMainHand;
     /**
      * @var WeaponlikeCode
-     * @ORM\Column(type="weaponlike_code")
      */
     private $weaponOrShieldInOffhand;
 
@@ -78,36 +63,22 @@ class Equipment extends StrictObject implements Entity, WithWeight
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Note: weight of worn armor, weapon and shield is NOT counted, see PPH page 114 left column.
      *
      * @param WeightTable $weightTable
      * @return Weight
      */
-    public function getWeight(WeightTable $weightTable)
+    public function getWeight(WeightTable $weightTable): Weight
     {
         return $this->getBelongings()->getWeight($weightTable);
     }
 
-    /**
-     * @return Belongings
-     */
-    public function getBelongings()
+    public function getBelongings(): Belongings
     {
         return $this->belongings;
     }
 
-    /**
-     * @return BodyArmorCode
-     */
-    public function getWornBodyArmor()
+    public function getWornBodyArmor(): BodyArmorCode
     {
         return $this->wornBodyArmor;
     }
@@ -123,10 +94,7 @@ class Equipment extends StrictObject implements Entity, WithWeight
         $this->wornBodyArmor = $wornBodyArmor;
     }
 
-    /**
-     * @return HelmCode
-     */
-    public function getWornHelm()
+    public function getWornHelm(): HelmCode
     {
         return $this->wornHelm;
     }
@@ -142,10 +110,7 @@ class Equipment extends StrictObject implements Entity, WithWeight
         $this->wornHelm = $wornHelm;
     }
 
-    /**
-     * @return WeaponlikeCode
-     */
-    public function getWeaponOrShieldInMainHand()
+    public function getWeaponOrShieldInMainHand(): WeaponlikeCode
     {
         return $this->weaponOrShieldInMainHand;
     }
@@ -161,10 +126,7 @@ class Equipment extends StrictObject implements Entity, WithWeight
         $this->weaponOrShieldInMainHand = $weaponOrShieldInMainHand;
     }
 
-    /**
-     * @return WeaponlikeCode
-     */
-    public function getWeaponOrShieldInOffhand()
+    public function getWeaponOrShieldInOffhand(): WeaponlikeCode
     {
         return $this->weaponOrShieldInOffhand;
     }

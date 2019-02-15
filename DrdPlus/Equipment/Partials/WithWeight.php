@@ -8,9 +8,5 @@ use DrdPlus\Tables\Measurements\Weight\WeightTable;
 
 interface WithWeight
 {
-    /**
-     * @param WeightTable $weightTable
-     * @return Weight
-     */
-    public function getWeight(WeightTable $weightTable);
+    public function getWeight(WeightTable $weightTable): Weight;
 }

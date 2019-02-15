@@ -30,7 +30,6 @@ class EquipmentTest extends TestWithMockery
             $mainHand = RangedWeaponCode::getIt(RangedWeaponCode::LIGHT_CROSSBOW),
             $offhand = ShieldCode::getIt(ShieldCode::PAVISE)
         );
-        self::assertNull($equipment->getId());
         self::assertSame($belongings, $equipment->getBelongings());
         $weightTable = new WeightTable();
         self::assertSame($belongings->getWeight($weightTable), $equipment->getWeight($weightTable));

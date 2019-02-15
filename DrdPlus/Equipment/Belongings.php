@@ -1,102 +1,70 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Equipment;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrineum\Entity\Entity;
 use DrdPlus\Equipment\Partials\WithWeight;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Tables\Measurements\Weight\Weight;
 use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use Granam\Strict\Object\StrictObject;
 
-/**
- * @ORM\Entity()
- */
-class Belongings extends StrictObject implements WithWeight, Entity, \Countable, \IteratorAggregate
+class Belongings extends StrictObject implements WithWeight, \Countable, \IteratorAggregate
 {
     /**
-     * @var int
-     * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue
+     * @var array|Item[]
      */
-    private $id;
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="\DrdPlus\Equipment\Item",mappedBy="belongings",fetch="EAGER",cascade={"persist"})
-     */
-    private $items;
-
-    public function __construct()
-    {
-        $this->items = new ArrayCollection();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $items = [];
 
     /**
      * @return array|Item[]
      */
-    public function getItems()
+    public function getItems(): array
     {
-        // gives array copy to avoid changes of original ArrayCollection
-        return $this->items->getIterator()->getArrayCopy();
+        return $this->items;
     }
 
-    /**
-     * @return \ArrayIterator|\Traversable
-     */
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
-        return $this->items->getIterator();
+        return new \ArrayIterator($this->items);
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
-        return count($this->items);
+        return \count($this->items);
     }
 
-    /**
-     * @param Item $item
-     * @return bool if has not been contained and was added
-     */
     public function addItem(Item $item)
     {
-        $wasAdded = $this->items->add($item);
+        $this->items[] = $item;
         if ($item->getBelongings() !== $this) {
             $item->setBelongings($this);
         }
-
-        return $wasAdded;
     }
 
     /**
-     * @param Item $item
+     * @param Item $itemToRemove
      * @return bool if has been contained and removed
      */
-    public function removeItem(Item $item)
+    public function removeItem(Item $itemToRemove): bool
     {
-        return $this->items->removeElement($item);
+        foreach ($this->items as $index => $item) {
+            if ($item === $itemToRemove) {
+                unset($this->items[$index]);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * @param WeightTable $weightTable
      * @return Weight
      */
-    public function getWeight(WeightTable $weightTable)
+    public function getWeight(WeightTable $weightTable): Weight
     {
         return new Weight(
-            array_sum(
-                array_map(
+            \array_sum(
+                \array_map(
                     function (Item $item) use ($weightTable) {
                         return $item->getWeight($weightTable)->getValue();
                     },
