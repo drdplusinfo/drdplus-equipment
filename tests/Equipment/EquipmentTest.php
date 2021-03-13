@@ -12,7 +12,7 @@ use DrdPlus\Equipment\Equipment;
 use DrdPlus\Tables\Measurements\Weight\Weight;
 use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 class EquipmentTest extends TestWithMockery
 {

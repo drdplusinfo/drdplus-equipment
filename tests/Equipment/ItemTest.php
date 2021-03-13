@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace DrdPlus\Tests\Equipment;
 
@@ -8,7 +7,7 @@ use DrdPlus\Equipment\Item;
 use DrdPlus\Tables\Measurements\Weight\Weight;
 use DrdPlus\Tables\Measurements\Weight\WeightTable;
 use DrdPlus\Tests\Equipment\Partials\WithWeightTest;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 class ItemTest extends TestWithMockery
 {
@@ -87,10 +86,10 @@ class ItemTest extends TestWithMockery
 
     /**
      * @test
-     * @expectedException \DrdPlus\Equipment\Exceptions\ItemNameCanNotBeEmpty
      */
     public function I_can_not_create_it_with_empty_name()
     {
+        $this->expectException(\DrdPlus\Equipment\Exceptions\ItemNameCanNotBeEmpty::class);
         new Item('', $this->createWeight());
     }
 }
